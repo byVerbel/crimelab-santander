@@ -1,0 +1,425 @@
+from pathlib import Path
+import sys
+
+import pandas as pd
+import geopandas as gpd
+import numpy as np
+from shapely.geometry import Polygon, MultiPolygon
+import holidays
+
+# === CONFIGURACIÓN DE RUTAS ===
+# Subimos un nivel desde scripts/ para llegar a la raíz del proyecto
+BASE_DIR = Path(__file__).resolve().parent.parent
+SILVER_ROOT = BASE_DIR / "data" / "silver"
+GOLD_ROOT = BASE_DIR / "data" / "gold"
+
+# Rutas de entrada (capa Silver)
+GEO_INPUT = SILVER_ROOT / "dane_geo" / "geografia_silver.parquet"
+POLICIA_INPUT = SILVER_ROOT / "policia_scraping" / "policia_santander.parquet"
+SOCRATA_INPUT = SILVER_ROOT / "delitos" / "consolidado_delitos.parquet"
+POBLACION_INPUT = SILVER_ROOT / "poblacion" / "poblacion_santander.parquet"
+DIVIPOLA_INPUT = SILVER_ROOT / "dane_geo" / "divipola_silver.parquet"
+
+# Rutas de salida (capa Gold base)
+GEO_OUTPUT = GOLD_ROOT / "base" / "geo_gold.parquet"
+POLICIA_OUTPUT = GOLD_ROOT / "base" / "policia_gold.parquet"
+SOCRATA_OUTPUT = GOLD_ROOT / "base" / "socrata_gold.parquet"
+POBLACION_OUTPUT = GOLD_ROOT / "base" / "poblacion_gold.parquet"
+DIVIPOLA_OUTPUT = GOLD_ROOT / "base" / "divipola_gold.parquet"
+
+
+# Utilidades 
+def ensure_folder(path: Path) -> None:
+    path.mkdir(parents=True, exist_ok=True)
+
+def save(df: pd.DataFrame | gpd.GeoDataFrame, path: Path) -> None:
+    ensure_folder(path.parent)
+    df.to_parquet(path, index=False)
+
+def check_exists(path: Path, label: str | None = None) -> None:
+    if not path.exists():
+        msg = f"ERROR: No se encontró el archivo requerido:\n{path}"
+        if label:
+            msg += f"\n(dataset: {label})"
+        print(msg)
+        sys.exit(1)
+    else:
+        print(f"✔ Archivo encontrado: {path}")
+
+# Carga única de los datasets Silver
+
+def load_silver() -> tuple[gpd.GeoDataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+    print("\n=== Verificando archivos Silver ===")
+
+    # Verificaciones previas
+    check_exists(GEO_INPUT, "geografia (geo)")
+    check_exists(POLICIA_INPUT, "policia scraping")
+    check_exists(SOCRATA_INPUT, "consolidado delitos (socrata)")
+    check_exists(POBLACION_INPUT, "poblacion santander")
+    check_exists(DIVIPOLA_INPUT, "divipola")
+
+    print("\n=== Cargando datasets Silver ===")
+    geo = gpd.read_parquet(GEO_INPUT)
+    policia = pd.read_parquet(POLICIA_INPUT)
+    socrata = pd.read_parquet(SOCRATA_INPUT)
+    poblacion = pd.read_parquet(POBLACION_INPUT)
+    divipola = pd.read_parquet(DIVIPOLA_INPUT)
+
+    return geo, policia, socrata, poblacion, divipola
+
+# Limpieza de cada dataset
+
+def clean_names(df: pd.DataFrame, cols: list[str] = ["municipio", "departamento"]) -> pd.DataFrame:
+    for c in cols:
+        if c in df.columns:
+            df[c] = (
+                df[c]
+                .astype(str)
+                .str.strip()
+                .str.upper()
+                .replace({"NAN": np.nan})
+            )
+    return df
+
+def clean_geo(geo: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
+    # Eliminar nulos de geometría y reparar
+    geo = geo[geo.geometry.notnull()].copy()
+    geo["geometry"] = geo["geometry"].buffer(0)
+    if geo.crs is None:
+        geo.set_crs("EPSG:4326", inplace=True)
+    geo = geo.explode(index_parts=False)
+
+    # Convertir llave a Int64
+    geo["codigo_municipio"] = (
+        pd.to_numeric(geo["codigo_municipio"], errors="coerce").astype("Int64")
+    )
+
+    # Estandarizar nombres
+    geo = clean_names(geo)
+
+    return geo
+
+
+def clean_policia(df: pd.DataFrame) -> pd.DataFrame:
+
+    df["codigo_dane"] = df["codigo_dane"].astype(str).str.strip()
+
+    df["codigo_dane"] = df["codigo_dane"].apply(
+        lambda x: x[:-3] if isinstance(x, str) and len(x) > 3 else x
+    )
+
+    df["codigo_dane"] = df["codigo_dane"].str.replace(r"\D+", "", regex=True)
+
+    df["codigo_municipio"] = pd.to_numeric(
+        df["codigo_dane"], errors="coerce"
+    ).astype("Int64")
+
+    df = clean_names(df)
+
+    # --- Procesar fecha ---
+    if "fecha" in df.columns:
+        df["fecha"] = pd.to_datetime(df["fecha"], errors="coerce")
+
+        df["anio"] = df["fecha"].dt.year.astype("Int64")
+        df["mes"] = df["fecha"].dt.month.astype("Int64")
+        df["dia"] = df["fecha"].dt.day.astype("Int64")
+
+        # --- Día de la semana y fin de semana ---
+        dia_semana = df["fecha"].dt.dayofweek
+        df["es_dia_semana"] = (dia_semana < 5).fillna(False).astype(int)
+        df["es_fin_de_semana"] = (dia_semana >= 5).fillna(False).astype(int)
+
+        # --- Fin de mes ---
+        df["es_fin_mes"] = (df["dia"] == df["fecha"].dt.days_in_month).fillna(False).astype(int)
+
+        # --- Festivos colombianos ---
+        anios = df["anio"].dropna().unique().tolist()
+        if anios:
+            col_holidays = holidays.Colombia(years=[int(a) for a in anios])
+            df["es_festivo"] = df["fecha"].apply(
+                lambda x: 1 if pd.notna(x) and x in col_holidays else 0
+            )
+            df["nombre_festivo"] = df["fecha"].apply(
+                lambda x: col_holidays.get(x, None) if pd.notna(x) else None
+            )
+        else:
+            df["es_festivo"] = 0
+            df["nombre_festivo"] = None
+
+        # --- Día laboral (día de semana y no festivo) ---
+        df["es_dia_laboral"] = ((df["es_dia_semana"] == 1) & (df["es_festivo"] == 0)).astype(int)
+
+    # categorías
+    for col in ["genero", "armas_medios", "delito", "edad_persona"]:
+        if col in df.columns:
+            df[col] = (
+                df[col]
+                .astype(str)
+                .str.strip()
+                .str.upper()
+                .replace({"NAN": np.nan})
+                .astype("category")
+            )
+
+    # eliminar campo viejo
+    df = df.drop(columns=["codigo_dane"], errors="ignore")
+
+    return df
+
+
+
+def clean_poblacion(df: pd.DataFrame) -> pd.DataFrame:
+    df["codigo_municipio"] = pd.to_numeric(df["codigo_municipio"], errors="coerce").astype("Int64")
+    df["anio"] = pd.to_numeric(df["anio"], errors="coerce").astype("Int64")
+    df = clean_names(df)
+    return df
+
+
+def clean_divipola(df: pd.DataFrame) -> pd.DataFrame:
+    df["codigo_municipio"] = pd.to_numeric(df["codigo_municipio"], errors="coerce").astype("Int64")
+    df = clean_names(df)
+    return df
+
+
+def clean_socrata(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Limpia y estandariza el consolidado de delitos de Socrata.
+    Normaliza columnas para que sean compatibles con policia_gold.
+    """
+    df = df.copy()
+
+    # Normalizar código municipio (cod_muni -> codigo_municipio)
+    df["codigo_municipio"] = pd.to_numeric(
+        df["cod_muni"].astype(str).str[:5], errors="coerce"
+    ).astype("Int64")
+
+    # Renombrar columnas para compatibilidad
+    df = df.rename(columns={
+        "fecha_hecho": "fecha",
+        "tipo_delito": "delito",
+        "arma_medio": "armas_medios",
+    })
+
+    df = clean_names(df)
+
+    # --- Procesar fecha ---
+    if "fecha" in df.columns:
+        df["fecha"] = pd.to_datetime(df["fecha"], errors="coerce")
+
+        df["anio"] = df["fecha"].dt.year.astype("Int64")
+        df["mes"] = df["fecha"].dt.month.astype("Int64")
+        df["dia"] = df["fecha"].dt.day.astype("Int64")
+
+        # --- Día de la semana y fin de semana ---
+        dia_semana = df["fecha"].dt.dayofweek
+        df["es_dia_semana"] = (dia_semana < 5).fillna(False).astype(int)
+        df["es_fin_de_semana"] = (dia_semana >= 5).fillna(False).astype(int)
+
+        # --- Fin de mes ---
+        df["es_fin_mes"] = (df["dia"] == df["fecha"].dt.days_in_month).fillna(False).astype(int)
+
+        # --- Festivos colombianos ---
+        anios = df["anio"].dropna().unique().tolist()
+        if anios:
+            col_holidays = holidays.Colombia(years=[int(a) for a in anios])
+            df["es_festivo"] = df["fecha"].apply(
+                lambda x: 1 if pd.notna(x) and x in col_holidays else 0
+            )
+            df["nombre_festivo"] = df["fecha"].apply(
+                lambda x: col_holidays.get(x, None) if pd.notna(x) else None
+            )
+        else:
+            df["es_festivo"] = 0
+            df["nombre_festivo"] = None
+
+        # --- Día laboral (día de semana y no festivo) ---
+        df["es_dia_laboral"] = ((df["es_dia_semana"] == 1) & (df["es_festivo"] == 0)).astype(int)
+
+    # Categorías
+    for col in ["genero", "armas_medios", "delito"]:
+        if col in df.columns:
+            df[col] = (
+                df[col]
+                .astype(str)
+                .str.strip()
+                .str.upper()
+                .replace({"NAN": np.nan})
+                .astype("category")
+            )
+
+    # Agregar columna origen para trazabilidad
+    df["origen"] = "SOCRATA"
+
+    # Eliminar columna vieja
+    df = df.drop(columns=["cod_muni"], errors="ignore")
+
+    return df
+
+
+def complementar_policia_con_socrata(policia: pd.DataFrame, socrata: pd.DataFrame) -> pd.DataFrame:
+    """
+    Complementa los datos faltantes de policía con datos del consolidado (socrata).
+    
+    Problemas identificados en policía:
+    - DELITOS SEXUALES: falta en 2010, 2014, 2021
+    - HURTOS 2022: solo 1,497 vs ~14,000 esperados (registros con cantidad nula)
+    - DELITOS (genérico): existe en 2010 y 2014, probablemente son DELITOS SEXUALES
+    
+    Estrategia:
+    1. Eliminar registros con cantidad nula en policía (HURTOS 2022 con codigo 00nan)
+    2. Fusionar "DELITOS" con "DELITOS SEXUALES" en policía para 2010 y 2014
+    3. Extraer del consolidado los datos faltantes y agregarlos
+    """
+    print("\n=== Complementando datos de Policía con Socrata ===")
+    
+    policia = policia.copy()
+    socrata = socrata.copy()
+    
+    registros_inicial = len(policia)
+    
+    # --- PASO 1: Eliminar registros con cantidad nula (HURTOS 2022 problemáticos) ---
+    nulos_antes = policia["cantidad"].isnull().sum()
+    policia = policia[policia["cantidad"].notna()].copy()
+    print(f"  ✔ Eliminados {nulos_antes:,} registros con cantidad nula")
+    
+    # --- PASO 2: Fusionar "DELITOS" con "DELITOS SEXUALES" en policía ---
+    # En 2010 y 2014, "DELITOS" parece ser la categoría que después se llamó "DELITOS SEXUALES"
+    mask_delitos_generico = policia["delito"].astype(str) == "DELITOS"
+    n_delitos_genericos = mask_delitos_generico.sum()
+    if n_delitos_genericos > 0:
+        policia.loc[mask_delitos_generico, "delito"] = "DELITOS SEXUALES"
+        print(f"  ✔ Reclasificados {n_delitos_genericos:,} registros de 'DELITOS' a 'DELITOS SEXUALES'")
+    
+    # --- PASO 3: Mapeo de nombres de delitos entre datasets ---
+    mapeo_socrata_a_policia = {
+        "HURTO_PERSONAS": "HURTOS",
+        "DELITOS_SEXUALES": "DELITOS SEXUALES",
+        "VIOLENCIA_INTRAFAMILIAR": "VIOLENCIA INTRAFAMILIAR",
+        "AMENAZAS": "AMENAZAS",
+        "LESIONES": "LESIONES",
+        "HOMICIDIOS": "HOMICIDIOS",
+        "EXTORSION": "EXTORSION",
+    }
+    
+    # --- PASO 4: Definir qué datos faltantes traer del consolidado ---
+    # Casos a complementar: (delito_policia, año)
+    casos_complementar = [
+        ("DELITOS SEXUALES", 2021),  # Falta completamente
+        ("HURTOS", 2022),            # Tiene solo 1,497 vs ~14,000
+    ]
+    
+    registros_agregados = 0
+    
+    for delito_policia, anio in casos_complementar:
+        # Buscar el nombre equivalente en socrata
+        delito_socrata = [k for k, v in mapeo_socrata_a_policia.items() if v == delito_policia]
+        
+        if not delito_socrata:
+            print(f"  ⚠ No se encontró mapeo para {delito_policia}")
+            continue
+        
+        delito_socrata = delito_socrata[0]
+        
+        # Extraer datos del consolidado para ese delito y año
+        mask_socrata = (
+            (socrata["delito"].astype(str) == delito_socrata) & 
+            (socrata["anio"] == anio)
+        )
+        datos_socrata = socrata[mask_socrata].copy()
+        
+        if len(datos_socrata) == 0:
+            print(f"  ⚠ No hay datos en Socrata para {delito_policia} {anio}")
+            continue
+        
+        # Renombrar delito al formato de policía
+        datos_socrata["delito"] = delito_policia
+        
+        # Marcar origen como complemento
+        datos_socrata["origen"] = "SOCRATA_COMPLEMENTO"
+        
+        # Agregar columnas faltantes que tiene policía pero no socrata
+        for col in policia.columns:
+            if col not in datos_socrata.columns:
+                datos_socrata[col] = np.nan
+        
+        # Seleccionar solo columnas que existen en policía
+        cols_comunes = [c for c in policia.columns if c in datos_socrata.columns]
+        datos_socrata = datos_socrata[cols_comunes]
+        
+        # Si es HURTOS 2022, primero eliminar los existentes (que están incompletos)
+        if delito_policia == "HURTOS" and anio == 2022:
+            mask_eliminar = (
+                (policia["delito"].astype(str) == "HURTOS") & 
+                (policia["anio"] == 2022)
+            )
+            n_eliminar = mask_eliminar.sum()
+            policia = policia[~mask_eliminar]
+            print(f"  ✔ Eliminados {n_eliminar:,} registros incompletos de HURTOS 2022")
+        
+        # Concatenar
+        policia = pd.concat([policia, datos_socrata], ignore_index=True)
+        registros_agregados += len(datos_socrata)
+        
+        print(f"  ✔ Agregados {len(datos_socrata):,} registros de {delito_policia} {anio} desde Socrata")
+    
+    # --- Convertir delito a categoría nuevamente ---
+    policia["delito"] = policia["delito"].astype(str).astype("category")
+    
+    # --- Reporte final ---
+    print(f"\n  📊 Resumen de complementación:")
+    print(f"     Registros iniciales: {registros_inicial:,}")
+    print(f"     Registros finales:   {len(policia):,}")
+    print(f"     Diferencia:          {len(policia) - registros_inicial:+,}")
+    
+    return policia
+
+
+# Ejecutar transformación completa Silver → Gold/base
+
+def prepare_silver_to_gold() -> None:
+
+    print("Cargando datos Silver…")
+    geo, policia, socrata, poblacion, divipola = load_silver()
+
+    print("Limpiando Geografia…")
+    geo = clean_geo(geo)
+
+    print("Limpiando Policía (scraping)…")
+    policia = clean_policia(policia)
+    policia["origen"] = "SCRAPING"  # Agregar origen para trazabilidad
+
+    print("Limpiando Socrata (consolidado delitos)…")
+    socrata = clean_socrata(socrata)
+
+    print("Limpiando Población…")
+    poblacion = clean_poblacion(poblacion)
+
+    print("Limpiando Divipola…")
+    divipola = clean_divipola(divipola)
+
+    # === COMPLEMENTAR DATOS FALTANTES DE POLICÍA CON SOCRATA ===
+    policia = complementar_policia_con_socrata(policia, socrata)
+
+    # === REPORTE ===
+    print("\n" + "=" * 60)
+    print("📊 RESUMEN DE DATOS PROCESADOS")
+    print("=" * 60)
+    print(f"  Geografía:     {len(geo):>10,} registros")
+    print(f"  Policía:       {len(policia):>10,} registros (scraping)")
+    print(f"  Socrata:       {len(socrata):>10,} registros (API)")
+    print(f"  Población:     {len(poblacion):>10,} registros")
+    print(f"  Divipola:      {len(divipola):>10,} registros")
+    print("=" * 60)
+
+    print("\nGuardando en data/gold/base…")
+    save(geo, GEO_OUTPUT)
+    save(policia, POLICIA_OUTPUT)
+    save(socrata, SOCRATA_OUTPUT)
+    save(poblacion, POBLACION_OUTPUT)
+    save(divipola, DIVIPOLA_OUTPUT)
+
+    print("✔ Limpieza y exportación completadas.")
+
+
+if __name__ == "__main__":
+    prepare_silver_to_gold()

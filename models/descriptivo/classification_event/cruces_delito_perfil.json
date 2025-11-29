@@ -1,0 +1,265 @@
+{
+  "generado": "2025-11-28T21:41:45.577505",
+  "cruce_absoluto": {
+    "ABIGEATO": {
+      "FEMENINO_ADOLESCENTES": 0,
+      "FEMENINO_ADULTOS": 258,
+      "FEMENINO_MENORES": 0,
+      "FEMENINO_nan": 0,
+      "MASCULINO_ADOLESCENTES": 1,
+      "MASCULINO_ADULTOS": 1066,
+      "MASCULINO_MENORES": 1,
+      "MASCULINO_nan": 0,
+      "NO REPORTADO_nan": 0,
+      "NO REPORTA_ADOLESCENTES": 0,
+      "NO REPORTA_ADULTOS": 1,
+      "NO REPORTA_MENORES": 0
+    },
+    "AMENAZAS": {
+      "FEMENINO_ADOLESCENTES": 417,
+      "FEMENINO_ADULTOS": 12081,
+      "FEMENINO_MENORES": 129,
+      "FEMENINO_nan": 0,
+      "MASCULINO_ADOLESCENTES": 562,
+      "MASCULINO_ADULTOS": 16684,
+      "MASCULINO_MENORES": 175,
+      "MASCULINO_nan": 0,
+      "NO REPORTADO_nan": 0,
+      "NO REPORTA_ADOLESCENTES": 0,
+      "NO REPORTA_ADULTOS": 79,
+      "NO REPORTA_MENORES": 0
+    },
+    "DELITOS SEXUALES": {
+      "FEMENINO_ADOLESCENTES": 5681,
+      "FEMENINO_ADULTOS": 5047,
+      "FEMENINO_MENORES": 7359,
+      "FEMENINO_nan": 1486,
+      "MASCULINO_ADOLESCENTES": 725,
+      "MASCULINO_ADULTOS": 749,
+      "MASCULINO_MENORES": 1721,
+      "MASCULINO_nan": 246,
+      "NO REPORTADO_nan": 0,
+      "NO REPORTA_ADOLESCENTES": 15,
+      "NO REPORTA_ADULTOS": 39,
+      "NO REPORTA_MENORES": 19
+    },
+    "EXTORSION": {
+      "FEMENINO_ADOLESCENTES": 21,
+      "FEMENINO_ADULTOS": 832,
+      "FEMENINO_MENORES": 3,
+      "FEMENINO_nan": 0,
+      "MASCULINO_ADOLESCENTES": 11,
+      "MASCULINO_ADULTOS": 1818,
+      "MASCULINO_MENORES": 6,
+      "MASCULINO_nan": 0,
+      "NO REPORTADO_nan": 0,
+      "NO REPORTA_ADOLESCENTES": 0,
+      "NO REPORTA_ADULTOS": 0,
+      "NO REPORTA_MENORES": 0
+    },
+    "HOMICIDIOS": {
+      "FEMENINO_ADOLESCENTES": 98,
+      "FEMENINO_ADULTOS": 1251,
+      "FEMENINO_MENORES": 62,
+      "FEMENINO_nan": 0,
+      "MASCULINO_ADOLESCENTES": 437,
+      "MASCULINO_ADULTOS": 7565,
+      "MASCULINO_MENORES": 107,
+      "MASCULINO_nan": 0,
+      "NO REPORTADO_nan": 0,
+      "NO REPORTA_ADOLESCENTES": 0,
+      "NO REPORTA_ADULTOS": 0,
+      "NO REPORTA_MENORES": 0
+    },
+    "HURTOS": {
+      "FEMENINO_ADOLESCENTES": 1372,
+      "FEMENINO_ADULTOS": 48276,
+      "FEMENINO_MENORES": 112,
+      "FEMENINO_nan": 0,
+      "MASCULINO_ADOLESCENTES": 2219,
+      "MASCULINO_ADULTOS": 60786,
+      "MASCULINO_MENORES": 136,
+      "MASCULINO_nan": 0,
+      "NO REPORTADO_nan": 2520,
+      "NO REPORTA_ADOLESCENTES": 0,
+      "NO REPORTA_ADULTOS": 19,
+      "NO REPORTA_MENORES": 0
+    },
+    "LESIONES": {
+      "FEMENINO_ADOLESCENTES": 4249,
+      "FEMENINO_ADULTOS": 40323,
+      "FEMENINO_MENORES": 1715,
+      "FEMENINO_nan": 0,
+      "MASCULINO_ADOLESCENTES": 6921,
+      "MASCULINO_ADULTOS": 67848,
+      "MASCULINO_MENORES": 2534,
+      "MASCULINO_nan": 0,
+      "NO REPORTADO_nan": 0,
+      "NO REPORTA_ADOLESCENTES": 0,
+      "NO REPORTA_ADULTOS": 10,
+      "NO REPORTA_MENORES": 0
+    },
+    "VIOLENCIA INTRAFAMILIAR": {
+      "FEMENINO_ADOLESCENTES": 2184,
+      "FEMENINO_ADULTOS": 46160,
+      "FEMENINO_MENORES": 1330,
+      "FEMENINO_nan": 0,
+      "MASCULINO_ADOLESCENTES": 1023,
+      "MASCULINO_ADULTOS": 13192,
+      "MASCULINO_MENORES": 1432,
+      "MASCULINO_nan": 0,
+      "NO REPORTADO_nan": 0,
+      "NO REPORTA_ADOLESCENTES": 0,
+      "NO REPORTA_ADULTOS": 5,
+      "NO REPORTA_MENORES": 1
+    }
+  },
+  "cruce_porcentual": {
+    "ABIGEATO": {
+      "FEMENINO_ADOLESCENTES": 0.0,
+      "FEMENINO_ADULTOS": 19.44,
+      "FEMENINO_MENORES": 0.0,
+      "FEMENINO_nan": 0.0,
+      "MASCULINO_ADOLESCENTES": 0.08,
+      "MASCULINO_ADULTOS": 80.33,
+      "MASCULINO_MENORES": 0.08,
+      "MASCULINO_nan": 0.0,
+      "NO REPORTADO_nan": 0.0,
+      "NO REPORTA_ADOLESCENTES": 0.0,
+      "NO REPORTA_ADULTOS": 0.08,
+      "NO REPORTA_MENORES": 0.0
+    },
+    "AMENAZAS": {
+      "FEMENINO_ADOLESCENTES": 1.38,
+      "FEMENINO_ADULTOS": 40.1,
+      "FEMENINO_MENORES": 0.43,
+      "FEMENINO_nan": 0.0,
+      "MASCULINO_ADOLESCENTES": 1.87,
+      "MASCULINO_ADULTOS": 55.38,
+      "MASCULINO_MENORES": 0.58,
+      "MASCULINO_nan": 0.0,
+      "NO REPORTADO_nan": 0.0,
+      "NO REPORTA_ADOLESCENTES": 0.0,
+      "NO REPORTA_ADULTOS": 0.26,
+      "NO REPORTA_MENORES": 0.0
+    },
+    "DELITOS SEXUALES": {
+      "FEMENINO_ADOLESCENTES": 24.61,
+      "FEMENINO_ADULTOS": 21.86,
+      "FEMENINO_MENORES": 31.88,
+      "FEMENINO_nan": 6.44,
+      "MASCULINO_ADOLESCENTES": 3.14,
+      "MASCULINO_ADULTOS": 3.24,
+      "MASCULINO_MENORES": 7.45,
+      "MASCULINO_nan": 1.07,
+      "NO REPORTADO_nan": 0.0,
+      "NO REPORTA_ADOLESCENTES": 0.06,
+      "NO REPORTA_ADULTOS": 0.17,
+      "NO REPORTA_MENORES": 0.08
+    },
+    "EXTORSION": {
+      "FEMENINO_ADOLESCENTES": 0.78,
+      "FEMENINO_ADULTOS": 30.92,
+      "FEMENINO_MENORES": 0.11,
+      "FEMENINO_nan": 0.0,
+      "MASCULINO_ADOLESCENTES": 0.41,
+      "MASCULINO_ADULTOS": 67.56,
+      "MASCULINO_MENORES": 0.22,
+      "MASCULINO_nan": 0.0,
+      "NO REPORTADO_nan": 0.0,
+      "NO REPORTA_ADOLESCENTES": 0.0,
+      "NO REPORTA_ADULTOS": 0.0,
+      "NO REPORTA_MENORES": 0.0
+    },
+    "HOMICIDIOS": {
+      "FEMENINO_ADOLESCENTES": 1.03,
+      "FEMENINO_ADULTOS": 13.14,
+      "FEMENINO_MENORES": 0.65,
+      "FEMENINO_nan": 0.0,
+      "MASCULINO_ADOLESCENTES": 4.59,
+      "MASCULINO_ADULTOS": 79.46,
+      "MASCULINO_MENORES": 1.12,
+      "MASCULINO_nan": 0.0,
+      "NO REPORTADO_nan": 0.0,
+      "NO REPORTA_ADOLESCENTES": 0.0,
+      "NO REPORTA_ADULTOS": 0.0,
+      "NO REPORTA_MENORES": 0.0
+    },
+    "HURTOS": {
+      "FEMENINO_ADOLESCENTES": 1.19,
+      "FEMENINO_ADULTOS": 41.82,
+      "FEMENINO_MENORES": 0.1,
+      "FEMENINO_nan": 0.0,
+      "MASCULINO_ADOLESCENTES": 1.92,
+      "MASCULINO_ADULTOS": 52.66,
+      "MASCULINO_MENORES": 0.12,
+      "MASCULINO_nan": 0.0,
+      "NO REPORTADO_nan": 2.18,
+      "NO REPORTA_ADOLESCENTES": 0.0,
+      "NO REPORTA_ADULTOS": 0.02,
+      "NO REPORTA_MENORES": 0.0
+    },
+    "LESIONES": {
+      "FEMENINO_ADOLESCENTES": 3.44,
+      "FEMENINO_ADULTOS": 32.62,
+      "FEMENINO_MENORES": 1.39,
+      "FEMENINO_nan": 0.0,
+      "MASCULINO_ADOLESCENTES": 5.6,
+      "MASCULINO_ADULTOS": 54.89,
+      "MASCULINO_MENORES": 2.05,
+      "MASCULINO_nan": 0.0,
+      "NO REPORTADO_nan": 0.0,
+      "NO REPORTA_ADOLESCENTES": 0.0,
+      "NO REPORTA_ADULTOS": 0.01,
+      "NO REPORTA_MENORES": 0.0
+    },
+    "VIOLENCIA INTRAFAMILIAR": {
+      "FEMENINO_ADOLESCENTES": 3.34,
+      "FEMENINO_ADULTOS": 70.66,
+      "FEMENINO_MENORES": 2.04,
+      "FEMENINO_nan": 0.0,
+      "MASCULINO_ADOLESCENTES": 1.57,
+      "MASCULINO_ADULTOS": 20.19,
+      "MASCULINO_MENORES": 2.19,
+      "MASCULINO_nan": 0.0,
+      "NO REPORTADO_nan": 0.0,
+      "NO REPORTA_ADOLESCENTES": 0.0,
+      "NO REPORTA_ADULTOS": 0.01,
+      "NO REPORTA_MENORES": 0.0
+    }
+  },
+  "perfil_dominante_por_delito": {
+    "ABIGEATO": {
+      "perfil": "MASCULINO_ADULTOS",
+      "porcentaje": 80.33
+    },
+    "AMENAZAS": {
+      "perfil": "MASCULINO_ADULTOS",
+      "porcentaje": 55.38
+    },
+    "DELITOS SEXUALES": {
+      "perfil": "FEMENINO_MENORES",
+      "porcentaje": 31.88
+    },
+    "EXTORSION": {
+      "perfil": "MASCULINO_ADULTOS",
+      "porcentaje": 67.56
+    },
+    "HOMICIDIOS": {
+      "perfil": "MASCULINO_ADULTOS",
+      "porcentaje": 79.46
+    },
+    "HURTOS": {
+      "perfil": "MASCULINO_ADULTOS",
+      "porcentaje": 52.66
+    },
+    "LESIONES": {
+      "perfil": "MASCULINO_ADULTOS",
+      "porcentaje": 54.89
+    },
+    "VIOLENCIA INTRAFAMILIAR": {
+      "perfil": "FEMENINO_ADULTOS",
+      "porcentaje": 70.66
+    }
+  }
+}

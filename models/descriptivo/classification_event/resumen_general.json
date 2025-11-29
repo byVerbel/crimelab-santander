@@ -1,0 +1,58 @@
+{
+  "generado": "2025-11-28T21:41:44.959118",
+  "dataset": "classification_event_dataset.parquet",
+  "total_eventos": 371119,
+  "periodo": {
+    "anio_inicio": 2010,
+    "anio_fin": 2025,
+    "n_anios": 16
+  },
+  "geografia": {
+    "n_municipios": 87,
+    "departamento": "SANTANDER"
+  },
+  "tipos_delito": {
+    "n_tipos": 8,
+    "tipos": [
+      "ABIGEATO",
+      "AMENAZAS",
+      "DELITOS SEXUALES",
+      "EXTORSION",
+      "HOMICIDIOS",
+      "HURTOS",
+      "LESIONES",
+      "VIOLENCIA INTRAFAMILIAR"
+    ]
+  },
+  "perfiles": {
+    "n_perfiles": 12,
+    "perfiles": [
+      "MASCULINO_ADULTOS",
+      "FEMENINO_ADULTOS",
+      "MASCULINO_ADOLESCENTES",
+      "FEMENINO_ADOLESCENTES",
+      "FEMENINO_MENORES",
+      "MASCULINO_MENORES",
+      "NO REPORTA_ADULTOS",
+      "NO REPORTA_MENORES",
+      "NO REPORTA_ADOLESCENTES",
+      "MASCULINO_nan",
+      "FEMENINO_nan",
+      "NO REPORTADO_nan"
+    ]
+  },
+  "grupos_etarios": {
+    "n_grupos": 3,
+    "grupos": [
+      "ADULTOS",
+      "ADOLESCENTES",
+      "MENORES",
+      NaN
+    ]
+  },
+  "promedios": {
+    "eventos_por_anio": 23194,
+    "eventos_por_mes": 1932,
+    "eventos_por_municipio": 4265
+  }
+}

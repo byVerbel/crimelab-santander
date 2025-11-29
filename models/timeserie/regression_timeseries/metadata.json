@@ -1,0 +1,27 @@
+{
+  "model_name": "regression_timeseries",
+  "model_type": "Prophet",
+  "created_at": "2025-11-28T22:14:11.533613",
+  "training_data": {
+    "start": "2010-01-01T00:00:00",
+    "end": "2025-10-01T00:00:00",
+    "n_months": 190
+  },
+  "best_params": {
+    "changepoint_prior_scale": 0.5,
+    "seasonality_prior_scale": 10.0,
+    "seasonality_mode": "multiplicative"
+  },
+  "metrics": {
+    "MAE": 550.0122960271877,
+    "RMSE": 608.1200987349752,
+    "R2": 0.18327040533715577,
+    "MAPE": 17.744437317690696
+  },
+  "forecast": {
+    "months": 12,
+    "start": "2025-11-01T00:00:00",
+    "end": "2026-10-01T00:00:00",
+    "mean_prediction": 3662.5098759330194
+  }
+}

@@ -1,0 +1,114 @@
+{
+  "generado": "2025-11-28T21:41:45.295071",
+  "por_grupo_etario": {
+    "distribucion": {
+      "ADULTOS": 324089,
+      "ADOLESCENTES": 25936,
+      "MENORES": 16842
+    },
+    "porcentajes": {
+      "ADULTOS": 87.33,
+      "ADOLESCENTES": 6.99,
+      "MENORES": 4.54
+    },
+    "grupo_mas_frecuente": "ADULTOS"
+  },
+  "por_genero": {
+    "distribucion": {
+      "MASCULINO": 187965,
+      "FEMENINO": 180446,
+      "NO REPORTADO": 2520,
+      "NO REPORTA": 188
+    },
+    "porcentajes": {
+      "MASCULINO": 50.65,
+      "FEMENINO": 48.62,
+      "NO REPORTADO": 0.68,
+      "NO REPORTA": 0.05
+    }
+  },
+  "delitos_por_grupo_etario": {
+    "ADOLESCENTES": {
+      "ABIGEATO": 1,
+      "AMENAZAS": 979,
+      "DELITOS SEXUALES": 6421,
+      "EXTORSION": 32,
+      "HOMICIDIOS": 535,
+      "HURTOS": 3591,
+      "LESIONES": 11170,
+      "VIOLENCIA INTRAFAMILIAR": 3207
+    },
+    "ADULTOS": {
+      "ABIGEATO": 1325,
+      "AMENAZAS": 28844,
+      "DELITOS SEXUALES": 5835,
+      "EXTORSION": 2650,
+      "HOMICIDIOS": 8816,
+      "HURTOS": 109081,
+      "LESIONES": 108181,
+      "VIOLENCIA INTRAFAMILIAR": 59357
+    },
+    "MENORES": {
+      "ABIGEATO": 1,
+      "AMENAZAS": 304,
+      "DELITOS SEXUALES": 9099,
+      "EXTORSION": 9,
+      "HOMICIDIOS": 169,
+      "HURTOS": 248,
+      "LESIONES": 4249,
+      "VIOLENCIA INTRAFAMILIAR": 2763
+    }
+  },
+  "delitos_por_genero": {
+    "FEMENINO": {
+      "ABIGEATO": 258,
+      "AMENAZAS": 12627,
+      "DELITOS SEXUALES": 19573,
+      "EXTORSION": 856,
+      "HOMICIDIOS": 1411,
+      "HURTOS": 49760,
+      "LESIONES": 46287,
+      "VIOLENCIA INTRAFAMILIAR": 49674
+    },
+    "MASCULINO": {
+      "ABIGEATO": 1068,
+      "AMENAZAS": 17421,
+      "DELITOS SEXUALES": 3441,
+      "EXTORSION": 1835,
+      "HOMICIDIOS": 8109,
+      "HURTOS": 63141,
+      "LESIONES": 77303,
+      "VIOLENCIA INTRAFAMILIAR": 15647
+    },
+    "NO REPORTA": {
+      "ABIGEATO": 1,
+      "AMENAZAS": 79,
+      "DELITOS SEXUALES": 73,
+      "EXTORSION": 0,
+      "HOMICIDIOS": 0,
+      "HURTOS": 19,
+      "LESIONES": 10,
+      "VIOLENCIA INTRAFAMILIAR": 6
+    },
+    "NO REPORTADO": {
+      "ABIGEATO": 0,
+      "AMENAZAS": 0,
+      "DELITOS SEXUALES": 0,
+      "EXTORSION": 0,
+      "HOMICIDIOS": 0,
+      "HURTOS": 2520,
+      "LESIONES": 0,
+      "VIOLENCIA INTRAFAMILIAR": 0
+    }
+  },
+  "grupo_etario_mas_afectado_por_delito": {
+    "ABIGEATO": "ADULTOS",
+    "AMENAZAS": "ADULTOS",
+    "DELITOS SEXUALES": "MENORES",
+    "EXTORSION": "ADULTOS",
+    "HOMICIDIOS": "ADULTOS",
+    "HURTOS": "ADULTOS",
+    "LESIONES": "ADULTOS",
+    "VIOLENCIA INTRAFAMILIAR": "ADULTOS"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "fecha_entrenamiento": "2025-11-28 22:13:22",
+  "algoritmo": "KMeans",
+  "n_clusters": 4,
+  "parametros": {
+    "init": "k-means++",
+    "n_init": 10,
+    "max_iter": 500,
+    "random_state": 42
+  },
+  "features": [
+    "total_delitos_tasa",
+    "HURTOS_tasa",
+    "LESIONES_tasa",
+    "VIOLENCIA INTRAFAMILIAR_tasa",
+    "HOMICIDIOS_tasa",
+    "AMENAZAS_tasa",
+    "log_densidad",
+    "log_area",
+    "centros_por_km2",
+    "proporcion_menores",
+    "proporcion_adultos",
+    "proporcion_adolescentes"
+  ],
+  "metricas": {
+    "silhouette_score": 0.26767833681376024,
+    "calinski_harabasz": 31.793868758528582,
+    "davies_bouldin": 1.2184801580076259
+  },
+  "n_municipios": 87,
+  "distribucion_clusters": {
+    "0": 11,
+    "1": 9,
+    "2": 50,
+    "3": 17
+  }
+}

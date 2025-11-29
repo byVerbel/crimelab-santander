@@ -1,0 +1,195 @@
+{
+  "por_anio": {
+    "2010": {
+      "total_delitos": 22798,
+      "promedio_mensual": 28.86,
+      "municipios_activos": 87
+    },
+    "2011": {
+      "total_delitos": 24165,
+      "promedio_mensual": 29.18,
+      "municipios_activos": 87
+    },
+    "2012": {
+      "total_delitos": 26277,
+      "promedio_mensual": 33.01,
+      "municipios_activos": 87
+    },
+    "2013": {
+      "total_delitos": 26408,
+      "promedio_mensual": 33.99,
+      "municipios_activos": 87
+    },
+    "2014": {
+      "total_delitos": 27802,
+      "promedio_mensual": 34.07,
+      "municipios_activos": 87
+    },
+    "2015": {
+      "total_delitos": 29692,
+      "promedio_mensual": 35.9,
+      "municipios_activos": 87
+    },
+    "2016": {
+      "total_delitos": 34215,
+      "promedio_mensual": 40.54,
+      "municipios_activos": 85
+    },
+    "2017": {
+      "total_delitos": 31358,
+      "promedio_mensual": 36.68,
+      "municipios_activos": 87
+    },
+    "2018": {
+      "total_delitos": 49552,
+      "promedio_mensual": 56.63,
+      "municipios_activos": 87
+    },
+    "2019": {
+      "total_delitos": 33343,
+      "promedio_mensual": 38.55,
+      "municipios_activos": 87
+    },
+    "2020": {
+      "total_delitos": 27290,
+      "promedio_mensual": 33.48,
+      "municipios_activos": 87
+    },
+    "2021": {
+      "total_delitos": 35064,
+      "promedio_mensual": 40.77,
+      "municipios_activos": 86
+    },
+    "2022": {
+      "total_delitos": 31968,
+      "promedio_mensual": 42.45,
+      "municipios_activos": 87
+    },
+    "2023": {
+      "total_delitos": 36684,
+      "promedio_mensual": 43.57,
+      "municipios_activos": 87
+    },
+    "2024": {
+      "total_delitos": 32363,
+      "promedio_mensual": 39.81,
+      "municipios_activos": 86
+    },
+    "2025": {
+      "total_delitos": 39248,
+      "promedio_mensual": 57.05,
+      "municipios_activos": 87
+    }
+  },
+  "por_mes": {
+    "1": {
+      "nombre": "Enero",
+      "total_historico": 44294,
+      "promedio": 39.58,
+      "desviacion": 140.27
+    },
+    "2": {
+      "nombre": "Febrero",
+      "total_historico": 42009,
+      "promedio": 38.83,
+      "desviacion": 139.97
+    },
+    "3": {
+      "nombre": "Marzo",
+      "total_historico": 44265,
+      "promedio": 40.17,
+      "desviacion": 142.63
+    },
+    "4": {
+      "nombre": "Abril",
+      "total_historico": 40470,
+      "promedio": 37.82,
+      "desviacion": 137.07
+    },
+    "5": {
+      "nombre": "Mayo",
+      "total_historico": 43931,
+      "promedio": 39.54,
+      "desviacion": 144.41
+    },
+    "6": {
+      "nombre": "Junio",
+      "total_historico": 41058,
+      "promedio": 37.7,
+      "desviacion": 135.55
+    },
+    "7": {
+      "nombre": "Julio",
+      "total_historico": 44240,
+      "promedio": 39.19,
+      "desviacion": 142.02
+    },
+    "8": {
+      "nombre": "Agosto",
+      "total_historico": 44291,
+      "promedio": 39.58,
+      "desviacion": 144.29
+    },
+    "9": {
+      "nombre": "Septiembre",
+      "total_historico": 45137,
+      "promedio": 40.77,
+      "desviacion": 151.9
+    },
+    "10": {
+      "nombre": "Octubre",
+      "total_historico": 42816,
+      "promedio": 38.33,
+      "desviacion": 140.44
+    },
+    "11": {
+      "nombre": "Noviembre",
+      "total_historico": 37744,
+      "promedio": 37.15,
+      "desviacion": 137.46
+    },
+    "12": {
+      "nombre": "Diciembre",
+      "total_historico": 37972,
+      "promedio": 38.63,
+      "desviacion": 141.49
+    }
+  },
+  "estacionalidad": {
+    "meses_mas_delitos": [
+      {
+        "mes": 9,
+        "nombre": "Septiembre",
+        "promedio": 40.77
+      },
+      {
+        "mes": 3,
+        "nombre": "Marzo",
+        "promedio": 40.17
+      },
+      {
+        "mes": 1,
+        "nombre": "Enero",
+        "promedio": 39.58
+      }
+    ],
+    "meses_menos_delitos": [
+      {
+        "mes": 4,
+        "nombre": "Abril",
+        "promedio": 37.82
+      },
+      {
+        "mes": 6,
+        "nombre": "Junio",
+        "promedio": 37.7
+      },
+      {
+        "mes": 11,
+        "nombre": "Noviembre",
+        "promedio": 37.15
+      }
+    ],
+    "variacion_estacional_pct": 9.74
+  }
+}
