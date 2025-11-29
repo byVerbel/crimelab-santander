@@ -20,16 +20,22 @@ Simula el modelo relacional uniéndolas en memoria para:
     - Modelo predictivo baseline (promedio histórico)
 """
 
-from pathlib import Path
-from typing import Dict, List, Tuple
+import sys
 
-import os
-import altair as alt
-import numpy as np
-import pandas as pd
-import streamlit as st
-import google.generativeai as genai
-from dotenv import load_dotenv
+try:
+    from pathlib import Path
+    from typing import Dict, List, Tuple
+
+    import os
+    import altair as alt
+    import numpy as np
+    import pandas as pd
+    import streamlit as st
+    import google.generativeai as genai
+    from dotenv import load_dotenv
+except Exception as e:
+    sys.stderr.write(f"\n=== IMPORT ERROR ===\n{e!r}\n")
+    raise
 
 # Cargar variables de entorno
 load_dotenv()
